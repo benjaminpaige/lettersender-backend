@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "keystone-next",
-    "start": "keystone-next start",
+    "start": "keystone-next build && keystone-next start",
     "seed-data": "keystone-next --seed-data"
   },
   "eslintConfig": {
