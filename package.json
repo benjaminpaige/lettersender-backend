@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "keystone-next",
-    "start": "node --max_old_space_size=2560 keystone-next build && keystone-next start",
+    "build": "keystone-next build",
+    "start": "keystone-next start",
     "seed-data": "keystone-next --seed-data"
   },
   "eslintConfig": {
