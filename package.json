@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "keystone-next",
-    "start": "keystone-next build && keystone-next start",
+    "start": "node --max_old_space_size=2560 keystone-next build && keystone-next start",
     "seed-data": "keystone-next --seed-data"
   },
   "eslintConfig": {
@@ -70,7 +70,6 @@
     "typescript": "^4.1.2"
   },
   "engines": {
-    "node": ">=14.0.0"
-  },
-  "repository": "https://github.com/wesbos/advanced-react"
+    "node": "14.x"
+  }
 }
