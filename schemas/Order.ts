@@ -13,7 +13,8 @@ export const Order = list({
       items: relationship({ref: 'OrderItem.order', many: true}),
       user: relationship({ref: 'User.orders'}),
       charge: text(),
-      paymentStatus: text()
+      paymentStatus: text(),
+      chargeDate: integer()
     //   label: virtual({
     //       graphQLReturnType: 'String',
     //       resolver: function(item) {

@@ -125,7 +125,8 @@ export const checkout = async (root: any, {token}: {token: string}, context: Key
             charge: charge.id,
             paymentStatus: charge.status,
             items: { create: orderItems },
-            user: { connect: { id: session.itemId }}
+            user: { connect: { id: session.itemId }},
+            chargeDate: charge.created
         }
     })
 
