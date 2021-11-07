@@ -84,38 +84,44 @@ export const checkout = async (root: any, {token}: {token: string}, context: Key
         )).catch(e => {
             console.log('ERROR SENDING LETTERS')
             console.log(e)
+            throw new Error(e)
         })
             
-      console.log(data)
-
       const orderItems = cartItems.map((cartItem, idx) => {
-        const createLetterResponse = {...data[idx]}
-        const lobOrderId = createLetterResponse.id
-        const lobOrderToId = createLetterResponse.to.id
-        const lobOrderMailType = createLetterResponse.mail_type
-        const lobOrderPdfUrl = createLetterResponse.url
-        const lobOrderCarrier = createLetterResponse.carrier
-        const lobOrderExpectedDeliveryDate = createLetterResponse.expected_delivery_date
-        const lobOrderType = createLetterResponse.object
-        const orderItem = {
-            recipientName: cartItem.letter.recipientName, 
-            addressLine1: cartItem.letter.addressLine1, 
-            addressLine2: cartItem.letter.addressLine2, 
-            postcode: cartItem.letter.postcode, 
-            locality: cartItem.letter.locality, 
-            state: cartItem.letter.state, 
-            content: cartItem.letter.content,
-            price: cartItem.letter.price,
-            lobOrderId,
-            lobOrderToId,
-            lobOrderMailType,
-            lobOrderPdfUrl,
-            lobOrderCarrier,
-            lobOrderExpectedDeliveryDate,
-            lobOrderType,
-        }
-        return orderItem
+          if (typeof data === 'object') {
+              const createLetterResponse = {...(data as object)[idx]}
+              const lobOrderId = createLetterResponse.id
+              const lobOrderToId = createLetterResponse.to.id
+              const lobOrderMailType = createLetterResponse.mail_type
+              const lobOrderPdfUrl = createLetterResponse.url
+              const lobOrderCarrier = createLetterResponse.carrier
+              const lobOrderExpectedDeliveryDate = createLetterResponse.expected_delivery_date
+              const lobOrderType = createLetterResponse.object
+              const orderItem = {
+                  recipientName: cartItem.letter.recipientName, 
+                  addressLine1: cartItem.letter.addressLine1, 
+                  addressLine2: cartItem.letter.addressLine2, 
+                  postcode: cartItem.letter.postcode, 
+                  locality: cartItem.letter.locality, 
+                  state: cartItem.letter.state, 
+                  content: cartItem.letter.content,
+                  price: cartItem.letter.price,
+                  lobOrderId,
+                  lobOrderToId,
+                  lobOrderMailType,
+                  lobOrderPdfUrl,
+                  lobOrderCarrier,
+                  lobOrderExpectedDeliveryDate,
+                  lobOrderType,
+              }
+              return orderItem
+          }
+          return null
     })
+
+    if (!orderItems) {
+        throw new Error('Unable to create order items')
+    }
 
     // 6. create the order and return it
 
