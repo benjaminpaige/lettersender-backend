@@ -1,7 +1,14 @@
 import { relationship, text, integer } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
+import { rules, isSignedIn } from '../access';
 
 export const Letter = list({
+  access: {
+    create: isSignedIn,
+    read: rules.canReadLetters,
+    update: rules.canManageLetters,
+    delete: rules.canManageLetters,
+  },
   ui: {
     listView: {
       initialColumns: ['content', 'recipientName', 'addressLine1'],
@@ -57,5 +64,4 @@ export const Letter = list({
       }),
     }),
   },
-  label: 'recipientName'
 });

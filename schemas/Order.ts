@@ -1,13 +1,20 @@
 import { integer, relationship, text, virtual } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
+import { isSignedIn, rules } from '../access';
 
 export const Order = list({
-    ui: {
-        listView: {
-            initialColumns: ['charge', 'total', 'paymentStatus', 'user'],
-        },
-        labelField: "charge"
-        },
+  access: {
+    create: isSignedIn,
+    read: rules.canOrder,
+    update: () => false,
+    delete: () => false,
+  },
+  ui: {
+      listView: {
+          initialColumns: ['charge', 'total', 'paymentStatus', 'user'],
+      },
+      labelField: "charge"
+      },
   fields: {
       total: integer(),
       items: relationship({ref: 'OrderItem.order', many: true}),
