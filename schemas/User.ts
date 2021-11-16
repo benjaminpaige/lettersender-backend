@@ -69,14 +69,6 @@ export const User = list({
       ],
       defaultValue: 'ACTIVE',
     }),
-    messages: relationship({
-      ref: 'Message.user',
-      many: true,
-      ui: {
-        createView: { fieldMode: 'hidden' },
-        itemView: { fieldMode: 'read' },
-      },
-    }),
     letters: relationship({
       ref: 'Letter.user',
       many: true,

@@ -8,8 +8,6 @@ import {
 } from "@keystone-next/keystone/session"
 import {
   User,
-  Message,
-  MessageImage,
   Letter,
   CartItem,
   OrderItem,
@@ -63,8 +61,6 @@ export default withAuth(
     lists: createSchema({
       // Schema items here
       User,
-      Message,
-      MessageImage,
       Letter,
       CartItem,
       OrderItem,
