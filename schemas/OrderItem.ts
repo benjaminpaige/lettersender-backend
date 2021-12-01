@@ -1,7 +1,14 @@
 import { integer, relationship, text } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
+import { isSignedIn, rules } from '../access';
 
 export const OrderItem = list({
+  access: {
+    create: isSignedIn,
+    read: rules.canManageOrderItems,
+    update: () => false,
+    delete: () => false,
+  },
   // we are "duplicating" this data because we want to give the user the ability to change letter content and re-order
   // as such we do not want to just reference the letters themselves because they might change
   ui: {

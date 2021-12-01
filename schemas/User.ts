@@ -6,13 +6,23 @@ import {
   select,
   relationship,
 } from '@keystone-next/fields';
+import { permissions, rules } from '../access';
 
 export const User = list({
+  access: {
+    create: () => true,
+    read: rules.canManageUsers,
+    update: rules.canManageUsers,
+    delete: permissions.canManageUsers,
+  },
   ui: {
     listView: {
       initialColumns: ['email'],
     },
-    labelField: "email"
+    labelField: "email",
+    // hide the backend UI from regular users
+    hideCreate: (args) => !permissions.canManageUsers(args),
+    hideDelete: (args) => !permissions.canManageUsers(args),
   },
   fields: {
     fullName: text({ isRequired: true }),
@@ -59,14 +69,6 @@ export const User = list({
       ],
       defaultValue: 'ACTIVE',
     }),
-    messages: relationship({
-      ref: 'Message.user',
-      many: true,
-      ui: {
-        createView: { fieldMode: 'hidden' },
-        itemView: { fieldMode: 'read' },
-      },
-    }),
     letters: relationship({
       ref: 'Letter.user',
       many: true,
@@ -79,7 +81,14 @@ export const User = list({
       ref: 'CartItem.user',
       many: true,
     }),
-    orders: relationship({ ref: 'Order.user', many: true })
+    orders: relationship({ ref: 'Order.user', many: true }),
+    role: relationship({
+      ref: 'Role.assignedTo',
+      access: {
+        create: permissions.canManageUsers,
+        update: permissions.canManageUsers,
+      },
+    })
   },
 });
 
